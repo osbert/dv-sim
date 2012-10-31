@@ -1,7 +1,9 @@
 (ns ^{:doc "Contains client-side state, validators for input fields
  and functions which react to changes made to the input fields."}
   one.sample.model
+  (:use [clojure.string :only [lower-case upper-case]])
   (:require [one.dispatch :as dispatch]
+            [one.sample.dvorak :as dvorak]
             [one.sample.validation :as validation]))
 
 (def ^{:doc "An atom containing a map which is the application's current state."}
@@ -132,6 +134,13 @@
 (dispatch/react-to (fn [e] (= (first e) :editing-field))
                    (fn [[_ id] _]
                      (set-editing id)))
+
+(dispatch/react-to #{[:field-changed "name-input"]}
+                   (fn [_ m]
+                     (swap! greeting-form
+                            assoc
+                            :dvorak-string
+                            (dvorak/convert-to-dvorak m))))
 
 (dispatch/react-to #{:form-submit}
   (fn [t d]
