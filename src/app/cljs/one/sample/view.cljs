@@ -1,9 +1,10 @@
 (ns ^{:doc "Render the views for the application."}
   one.sample.view
   (:use [domina :only [set-html! set-styles! styles by-id set-style!
-                       by-class value set-value! set-text! nodes single-node]]
+                       by-class value set-value! set-text! nodes single-node set-attr!]]
         [domina.xpath :only [xpath]]
-        [one.browser.animation :only [play]])
+        [one.browser.animation :only [play]]
+        [one.logging :only [info, get-logger]])
   (:require-macros [one.sample.snippets :as snippets])
   (:require [goog.events.KeyCodes :as key-codes]
             [goog.events.KeyHandler :as key-handler]
@@ -114,6 +115,11 @@
 (defmethod render :init [_]
   (fx/initialize-views (:form snippets) (:greeting snippets))
   (add-input-event-listeners "name-input")
+
+  (event/listen (by-id "text-dvorak-input")
+                "keydown"
+                (fn [e] (.preventDefault e)))
+
   (event/listen (by-id "greet-button")
                 "click"
                 #(dispatch/fire :greeting
@@ -146,5 +152,6 @@
                    (fn [_ m]
                      (doseq [s (form-fields-status m)]
                        (render-form-field s))
+                     (set-value! (single-node (by-id "text-output")) (get-in m [:new :dvorak-string]))
                      (render-button [(get-in m [:old :status])
                                      (get-in m [:new :status])] )))
