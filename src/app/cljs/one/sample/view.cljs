@@ -127,8 +127,6 @@
   (fx/initialize-views (:form snippets) (:greeting snippets))
   (add-input-event-listeners "text-input")
 
-  (one.logging/start-display (one.logging/console-output))
-
   (set-value! (by-id "text-input") (rand-nth [
                                               "The quick brown fox jumped over the lazy dog.",
                                               "Hello, world!",
