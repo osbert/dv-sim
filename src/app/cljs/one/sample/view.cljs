@@ -4,13 +4,15 @@
                        by-class value set-value! set-text! nodes single-node set-attr!]]
         [domina.xpath :only [xpath]]
         [one.browser.animation :only [play]]
-        [one.logging :only [info, get-logger]])
+        [one.logging :only [info, get-logger]]
+        [goog.dom.selection :only [getStart setStart setEnd getEnd]])
   (:require-macros [one.sample.snippets :as snippets])
   (:require [goog.events.KeyCodes :as key-codes]
             [goog.events.KeyHandler :as key-handler]
             [clojure.browser.event :as event]
             [one.dispatch :as dispatch]
-            [one.sample.animation :as fx]))
+            [one.sample.animation :as fx]
+            [one.sample.dvorak :as dvorak]))
 
 (def ^{:doc "A map which contains chunks of HTML which may be used
   when rendering views."}
@@ -112,14 +114,49 @@
   and renders a view based on the value of the `:state` key."
   :state)
 
+(defn relevant-keypress-event
+  [event]
+  (not (or (.-ctrlKey event)
+           (.-metaKey event)
+           (= (.-keyCode event) key-codes/BACKSPACE)
+           (= (.-keyCode event) key-codes/TAB)
+           (= (.-keyCode event) key-codes/ENTER)
+           (not (key-codes/isTextModifyingKeyEvent event)))))
+
+(defn translate-keypress-event
+  [text-box event]
+  (let [start (getStart text-box)
+        end (count (value text-box))
+        prefix (apply str (take start (value text-box)))
+        suffix (apply str (take-last (- end (getEnd text-box)) (value text-box)))]
+    (set-value! (single-node text-box)
+                (clojure.string/join [prefix
+                                      (dvorak/simulate-dvorak (.fromCharCode js/String (.-charCode event)))
+                                      suffix]))
+    (setStart text-box (+ start 1))
+    (setEnd text-box (+ start 1)))
+  )
+
 (defmethod render :init [_]
   (fx/initialize-views (:form snippets) (:greeting snippets))
   (add-input-event-listeners "name-input")
 
-  (event/listen (by-id "text-dvorak-input")
-                "keydown"
-                (fn [e] (.preventDefault e)))
-
+  (one.logging/start-display (one.logging/console-output))
+  
+  (let [text-box (by-id "text-dvorak-input")]
+      (event/listen (goog.events.KeyHandler. text-box)
+                    "key"
+                    (fn [e]
+                      (when (relevant-keypress-event e)
+                        (translate-keypress-event text-box e)
+                        (dispatch/fire :dvorak-input {
+                                                      :charcode (.-charCode e)
+                                                      :region-start (getStart text-box)
+                                                      :region-end (getEnd text-box)
+                                                      :target text-box
+                                                      })
+                        (.preventDefault e)))))
+  
   (event/listen (by-id "greet-button")
                 "click"
                 #(dispatch/fire :greeting
