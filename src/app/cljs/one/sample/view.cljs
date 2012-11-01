@@ -130,6 +130,7 @@
   (one.logging/start-display (one.logging/console-output))
 
   (set-value! (by-id "text-input") "The quick brown fox jumped over the lazy dog.")
+  (dispatch/fire [:field-changed "text-input"] (value (by-id "text-input")))
   
   (let [text-box (by-id "text-dvorak-input")]
       (event/listen (goog.events.KeyHandler. text-box)
