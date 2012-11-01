@@ -93,12 +93,7 @@
                   #(dispatch/fire [:editing-field field-id]))
     (event/listen field
                   "keyup"
-                  #(dispatch/fire [:field-changed field-id] (value field)))
-    (event/listen keyboard
-                  "key"
-                  (fn [e] (when (= (.-keyCode e) key-codes/ENTER)
-                           (do (.blur (by-id "text-input") ())
-                               (dispatch/fire :form-submit)))))))
+                  #(dispatch/fire [:field-changed field-id] (value field)))))
 
 (defmulti render
   "Accepts a map which represents the current state of the application
@@ -133,6 +128,8 @@
   (add-input-event-listeners "text-input")
 
   (one.logging/start-display (one.logging/console-output))
+
+  (set-value! (by-id "text-input") "The quick brown fox jumped over the lazy dog.")
   
   (let [text-box (by-id "text-dvorak-input")]
       (event/listen (goog.events.KeyHandler. text-box)
