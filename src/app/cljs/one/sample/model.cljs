@@ -135,7 +135,7 @@
                    (fn [[_ id] _]
                      (set-editing id)))
 
-(dispatch/react-to #{[:field-changed "name-input"]}
+(dispatch/react-to #{[:field-changed "text-input"]}
                    (fn [_ m]
                      (swap! greeting-form
                             assoc
@@ -146,4 +146,4 @@
   (fn [t d]
     (let [form-data @greeting-form]
       (when (= (:status form-data) :finished)
-        (dispatch/fire :greeting {:name (-> form-data :fields "name-input" :value)})))))
+        (dispatch/fire :greeting {:name (-> form-data :fields "text-input" :value)})))))

@@ -230,7 +230,7 @@ h1, h2 {
 
 h1 {
   font-family: "Chunkfive", serif;
-  font-size: 4.4em;
+  font-size: 2.8em;
 }
 
 h2 {
@@ -304,9 +304,20 @@ h2 {
 #form {
   background: url('/images/form-background-gradient.png') center center no-repeat;
   margin-top: -40px;
-  padding-top: 160px;
+  padding-top: 120px;
   height: 447px;
 }
+
+#form h1 {
+  padding-bottom: 0px;
+}
+
+#about {
+  width: 550px;
+  margin: 5px auto;
+  text-align: center;
+}
+
 
 #form h2 {
   color: #3c4764;
@@ -360,9 +371,9 @@ h2 {
   padding-top: 10px;
 }
 
-.input
+.input, .output, .dvorak-input
 {
-  padding: 40px 0;
+  padding: 20px 0;
 }
 
 input[type="text"] {
@@ -381,22 +392,26 @@ input[type="text"] {
   text-align: center;
 }
 
-#name-input-label, #text-output-label
+div#form label
 {
   display: block;
   margin: 0 auto;
-  width: 254px;
+  width: 400px;
 }
 
-#name-input-label span
+div#form textarea
 {
-  color: #bbc4d7;
-  cursor: text;
+  width: 400px;
+  height: 100px;
+}
+
+div#form label span
+{
   display: block;
-  padding-top: 12px;
-  position: absolute;
-  width: 254px;
-  z-index: 1;
+  color: #3c4764;
+  font-family: "Museo700", serif;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 1.0);
+  padding-bottom: 10px;
 }
 
 .clearfix {

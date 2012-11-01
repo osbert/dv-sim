@@ -216,7 +216,7 @@
 
 (comment ;; Color effect examples
 
-  (def label (get-element "//label[@id='name-input-label']/span"))
+  (def label (get-element "//label[@id='text-input-label']/span"))
   (def label-color (color label))
 
   (def red [255 0 0])
@@ -273,7 +273,7 @@
 
 (comment ;; Fade effect examples
 
-  (def label (get-element "//label[@id='name-input-label']/span"))
+  (def label (get-element "//label[@id='text-input-label']/span"))
   (def title (get-element "//div[@id='form']/h1"))
   (def title-opacity (opacity title))
   (def label-opacity (opacity label))
@@ -324,7 +324,7 @@
 
 (comment ;; Background color effect examples
 
-  (def input (get-element :name-input))
+  (def input (get-element :text-input))
 
   (def red [255 0 0])
   (def green [0 255 0])
@@ -368,7 +368,7 @@
 
 (comment ;; Slide effect examples
   
-  (def label (get-element "//label[@id='name-input-label']/span"))
+  (def label (get-element "//label[@id='text-input-label']/span"))
   
   (start (effect label {:effect :slide :up 40 :time 100}))
   (start (effect label {:effect :slide :down 40 :time 100}))
@@ -599,9 +599,9 @@
 
 (comment ;; Bind examples
 
-  (def label-color (color (get-element "//label[@id='name-input-label']/span")))
-  (def label (get-element "//label[@id='name-input-label']/span"))
-  (def input (get-element :name-input))
+  (def label-color (color (get-element "//label[@id='text-input-label']/span")))
+  (def label (get-element "//label[@id='text-input-label']/span"))
+  (def input (get-element :text-input))
   (def red [255 0 0])
   (def green [0 255 0])
   (def blue [0 0 255])
@@ -637,7 +637,7 @@
 (comment ;; Events
   
   ;; You may listen for "begin" and "finish" events
-  (def label-up (bind "//label[@id='name-input-label']/span"
+  (def label-up (bind "//label[@id='text-input-label']/span"
                       {:effect :color :end "#53607b" :time 200}
                       {:effect :slide :up 40 :time 200}))
   (event/listen-once label-up

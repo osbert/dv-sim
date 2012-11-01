@@ -3,26 +3,30 @@
   <div id="content">
     <div id="form">
       <h1 id="header">Simulate typing in Dvorak</h1>
+      <div id="about">
+        <p>
+          This simulator allows a QWERTY touch typist to try out
+          Dvorak.
+        </p>
+      </div>
       <div class="input">
-        <label id="name-input-label">
-          <span>Enter some text</span>
-          <textarea id="name-input"/>
+        <label id="text-input-label">
+          <span>Enter text to be converted:</span>
+          <textarea id="text-input"/>
         </label>
-        <div id="name-input-error" class="small error">&nbsp;</div>
       </div>
       <div class="output">
         <label id="text-output-label">
-          <span>Try typing this instead:</span>
+          <span>Type this Dvorak translation in the magical box:</span>
           <textarea id="text-output" disabled="disabled"/>
         </label>
       </div>
       <div class="dvorak-input">
         <label id="dvorak-input-label">
-          <span>Prompt for Dvorak input</span>
+          <span>This is a magical text box:</span>
           <textarea id="text-dvorak-input"/>
         </label>
       </div>
-      <input id="greet-button" class="button green" type="button" value="Done!">
     </div>
   </div>
   

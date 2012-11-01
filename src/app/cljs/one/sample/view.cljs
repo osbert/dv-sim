@@ -26,12 +26,6 @@
 
 (defmethod render-button :default [_])
 
-(defmethod render-button [:finished :editing] [_]
-  (fx/disable-button "greet-button"))
-
-(defmethod render-button [:editing :finished] [_]
-  (fx/enable-button "greet-button"))
-
 (defmulti render-form-field
   "Render a form field based on the current state transition. Form
   fields are validated as soon as they lose focus. There are six
@@ -51,9 +45,6 @@
 
 (defmethod render-form-field [:editing :empty] [{:keys [id]}]
   (fx/label-move-down (label-xpath id)))
-
-(defmethod render-form-field [:editing-valid :valid] [{:keys [id]}]
-  (fx/label-fade-out (label-xpath id)))
 
 (defmethod render-form-field [:valid :editing-valid] [{:keys [id]}]
   (play (label-xpath id) fx/fade-in))
@@ -106,7 +97,7 @@
     (event/listen keyboard
                   "key"
                   (fn [e] (when (= (.-keyCode e) key-codes/ENTER)
-                           (do (.blur (by-id "name-input") ())
+                           (do (.blur (by-id "text-input") ())
                                (dispatch/fire :form-submit)))))))
 
 (defmulti render
@@ -139,7 +130,7 @@
 
 (defmethod render :init [_]
   (fx/initialize-views (:form snippets) (:greeting snippets))
-  (add-input-event-listeners "name-input")
+  (add-input-event-listeners "text-input")
 
   (one.logging/start-display (one.logging/console-output))
   
@@ -155,17 +146,12 @@
                                                       :region-end (getEnd text-box)
                                                       :target text-box
                                                       })
-                        (.preventDefault e)))))
-  
-  (event/listen (by-id "greet-button")
-                "click"
-                #(dispatch/fire :greeting
-                                {:name (value (by-id "name-input"))})))
+                        (.preventDefault e))))))
 
 (defmethod render :form [{:keys [state error name]}]
   (fx/show-form)
-  (set-value! (by-id "name-input") "")
-  (dispatch/fire [:field-finished "name-input"] ""))
+  (set-value! (by-id "text-input") "")
+  (dispatch/fire [:field-finished "text-input"] ""))
 
 (defmethod render :greeting [{:keys [state name exists]}]
   (set-text! (single-node (by-class "name")) name)

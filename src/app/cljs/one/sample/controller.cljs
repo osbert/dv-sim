@@ -63,8 +63,5 @@
                  (assoc (assoc old :state :greeting :name name)
                    :exists (boolean (:exists response))))))
 
-(defmethod action :greeting [{name :name}]
-  (remote :add-name {:name name} #(add-name-callback name %)))
-
-(dispatch/react-to #{:init :form :greeting}
+(dispatch/react-to #{:init :form}
                    (fn [t d] (action (assoc d :type t))))

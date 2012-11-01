@@ -10,7 +10,7 @@
 
 (def form "//div[@id='form']")
 (def cloud "//div[@id='greeting']")
-(def label "//label[@id='name-input-label']/span")
+(def label "//label[@id='text-input-label']/span")
 
 (def ^:private
   form-in {:effect :fade :start 0 :end 1 :time 800})
@@ -29,7 +29,7 @@
     (style/setOpacity (single-node (xpath label)) 1)
     (set-styles! (xpath cloud) {:opacity "0" :display "none" :margin-top "-500px"})
     (set-styles! (by-id "greet-button") {:opacity "0.2" :disabled true})
-    (play form form-in {:after #(.focus (by-id "name-input") ())})))
+    (play form form-in {:after #(.focus (by-id "text-input") ())})))
 
 (comment ;; Try it
 
@@ -82,7 +82,7 @@
                                (bind cloud
                                      {:effect :color :time 500} ; Dummy animation for delay purposes
                                      {:effect :fade-in-and-show :time 600}))
-                    {:before #(gforms/setDisabled (by-id "name-input") true)
+                    {:before #(gforms/setDisabled (by-id "text-input") true)
                      ;; We need this next one because IE8 won't hide the button
                      :after #(set-styles! (by-id "greet-button") {:display "none"})})))
 
@@ -99,8 +99,8 @@
                    ;; toggle it between displaying inline and none
                    :before #(set-styles! (by-id "greet-button") {:display "inline"})
                    :after #(do
-                             (gforms/setDisabled (by-id "name-input") false)
-                             (.focus (by-id "name-input") ()))}))
+                             (gforms/setDisabled (by-id "text-input") false)
+                             (.focus (by-id "text-input") ()))}))
 
 (comment ;; Switch between greeting and form views
 

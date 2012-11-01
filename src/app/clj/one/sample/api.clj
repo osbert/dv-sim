@@ -24,7 +24,7 @@
 (defmethod remote :add-name [data]
   (let [n (-> data :args :name)
         response {:exists (contains? @*database* n)}]
-    (when (= (validate "name-input" n) :valid)
+    (when (= (validate "text-input" n) :valid)
       (swap! *database* conj n))
     response))
 

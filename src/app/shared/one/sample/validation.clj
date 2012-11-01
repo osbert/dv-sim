@@ -5,7 +5,7 @@
   or :valid."
   (fn [id _] id))
 
-(defmethod validate "name-input" [_ v]
+(defmethod validate "text-input" [_ v]
   (cond (= (count v) 0) :empty
         (= (count v) 1) :error
         :else :valid))
