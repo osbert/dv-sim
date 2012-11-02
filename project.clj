@@ -22,4 +22,5 @@
                  "src/lib/clj"
                  "src/lib/cljs"]
   :resource-paths ["templates"]
-  :aliases {"dumbrepl" ["trampoline" "run" "-m" "clojure.main/main"]})
+  :aliases {"dumbrepl" ["trampoline" "run" "-m" "clojure.main/main"]}
+  :min-lein-version "2.0.0")
